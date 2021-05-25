@@ -1,0 +1,32 @@
+#insert instructions here
+import csv
+#insert instructions here
+with open("par13.csv") as csv_for_reading:
+#insert instructions here
+    csv_list = list(csv.reader(csv_for_reading))
+#insert instructions here
+    csv_list2 = [item[:] for item in csv_list]
+#insert instructions here
+    for i in range(len(csv_list)):
+#insert instructions here
+        csv_list[i][0],csv_list[i][1]=csv_list[i][1],csv_list[i][0]
+#insert instructions here
+    with open("swapped_par13.csv", "w", newline ="") as csv_for_writing:
+#insert instructions here
+        writer = csv.writer(csv_for_writing)
+#insert instructions here
+        writer.writerows(csv_list)
+#insert instructions here
+    with open("part13_transposed.csv", "w", newline="") as csv_transposed:
+#insert instructions here
+        writer = csv.writer(csv_transposed)
+#insert instructions here
+        col1, col2 = [], []
+#insert instructions here
+        for i in csv_list2:
+#insert instructions here
+            col1.append(i[0])
+#insert instructions here
+            col2.append(i[1])
+#insert instructions here final
+        writer.writerows([col1, col2])
