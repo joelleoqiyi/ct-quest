@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<link rel="stylesheet" href="/static/index.css" />
+		<title>CT Quest Game Results</title>
+	</head>
+	<body>
+		<h1>Good Morning! :)</h1>
+		{% for i in data.data %}
+		<table>
+			<col width="37.5%" />
+			<col width="37.5%" />
+			<col width="25%" />
+			{% for j in i.games %}
+			<tr>
+				{% if loop.index == 1 %}
+				<td rowspan="{{i.games | length * 6}}">
+					Player Name: {{ i.username }}
+				</td>
+				{% endif %}
+				<td rowspan="6">Auntkia Name: {{ j.name }}</td>
+				<td>Decomposition: {{ j["Decomposition"]}}</td>
+			</tr>
+			<tr>
+				<td>Abstraction: {{ j["Abstraction"] }}</td>
+			</tr>
+			<tr>
+				<td>Pattern Recognition: {{ j["Pattern Recognition"] }}</td>
+			</tr>
+			<tr>
+				<td>Algorithmic Thinking: {{ j["Algorithmic Thinking"] }}</td>
+			</tr>
+			<tr>
+				<td>Learning Behaviours: {{ j["Learning Behaviours"] }}</td>
+			</tr>
+			<tr>
+				<td>Metacognition: {{ j["Metacognition"] }}</td>
+			</tr>
+			{% endfor %}
+		</table>
+		{% endfor %}
+	</body>
+</html>
