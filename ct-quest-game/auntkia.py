@@ -5,6 +5,7 @@ import csv
 import difflib
 from decouple import config
 import pymongo
+from functools import reduce
 
 SRV = config("SRV")
 client = pymongo.MongoClient(SRV)
@@ -168,9 +169,19 @@ if uid:
   
   keys = ['Decomposition','Abstraction', 'Pattern Recognition', 'Algorithmic Thinking', 'Learning Behaviours', 'Metacognition']
   values = [0,0,0,0,0,0]
+  weightages = [10,10,30,30,10,10]
+  recommended_time = reduce(lambda a,b: a+int(b[-1]), [0, *alloc_list])
+  time_difference = total_time - recommended_time
 
   for i in right_answers:
       values = [int(val1) + int(val2) for val1, val2 in zip(values, alloc_list[i][:-1])]
+
+  # account for weightage of points (due to nature of game, it tests some skills more than others)
+  values = [int(val) * int(weightage) for val, weightage in zip(values, weightages)]
+
+  # account for time factor
+  total_values = sum(values)
+  values = [val + (time_difference*(val//total_values)) for val in values]
 
   document = {
     "name": auntkia_path[2:-4],
@@ -184,6 +195,6 @@ if uid:
 
   try:
     x = user.update_one({"_id": uid["_id"]}, {"$push": {"games": document}})
-    print("\nYour score has been recorded.")
+    if x: print("\nYour score has been recorded.")
   except:
     print("\nSomething went wrong with recording your score.")
